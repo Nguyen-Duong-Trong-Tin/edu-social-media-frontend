@@ -39,7 +39,7 @@
           <div class="relative group">
             <button class="flex items-center gap-2 p-1 rounded-full border border-slate-100 hover:bg-slate-50 transition-colors">
               <img 
-                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" 
+                :src="userAvatar" 
                 alt="Profile Avatar" 
                 class="w-8 h-8 rounded-full object-cover"
               />
@@ -48,20 +48,22 @@
             </button>
 
             <!-- Dropdown Menu -->
-            <div class="absolute right-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg shadow-slate-200/50 py-1 hidden group-hover:block transition-all duration-200">
-              <a href="#" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
-                <span class="material-symbols-outlined text-slate-400 text-[18px]">person</span>My Profile
-              </a>
-              <a href="#" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
-                <span class="material-symbols-outlined text-slate-400 text-[18px]">settings</span>Settings
-              </a>
-              <div class="border-t border-slate-100 my-1"></div>
-              <button 
-                @click="handleLogout" 
-                class="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50/50 transition-colors font-medium text-left"
-              >
-                <span class="material-symbols-outlined text-[18px]">logout</span>Log Out
-              </button>
+            <div class="absolute right-0 top-full pt-2 w-48 hidden group-hover:block transition-all duration-200 z-50">
+              <div class="bg-white border border-slate-100 rounded-xl shadow-lg shadow-slate-200/50 py-1">
+                <router-link to="/profile" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
+                  <span class="material-symbols-outlined text-slate-400 text-[18px]">person</span>My Profile
+                </router-link>
+                <a href="#" class="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
+                  <span class="material-symbols-outlined text-slate-400 text-[18px]">settings</span>Settings
+                </a>
+                <div class="border-t border-slate-100 my-1"></div>
+                <button 
+                  @click="handleLogout" 
+                  class="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50/50 transition-colors font-medium text-left"
+                >
+                  <span class="material-symbols-outlined text-[18px]">logout</span>Log Out
+                </button>
+              </div>
             </div>
           </div>
 
@@ -80,14 +82,14 @@
           <div class="h-20 bg-gradient-to-r from-blue-500 to-indigo-600 relative"></div>
           <div class="relative -mt-10 mb-3 inline-block">
             <img 
-              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" 
+              :src="userAvatar" 
               alt="User profile picture" 
               class="w-20 h-20 rounded-full border-4 border-white object-cover shadow-sm mx-auto"
             />
             <span class="absolute bottom-1 right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
           </div>
           <h2 class="text-lg font-bold text-slate-800 px-4 truncate">{{ userName }}</h2>
-          <p class="text-xs font-semibold text-slate-500 mt-0.5 px-4 truncate">Computer Science Student</p>
+          <p class="text-xs font-semibold text-slate-500 mt-0.5 px-4 truncate">{{ userBio }}</p>
           <p class="text-xs text-blue-600 font-medium px-4 mt-1">Tech University</p>
 
           <div class="border-t border-slate-50 mt-5 pt-4 grid grid-cols-2 text-center divide-x divide-slate-100">
@@ -369,17 +371,42 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { deleteCookie, getCookie } from '@/utils/cookie'
 import { toast } from 'vue-sonner'
+import { meUserAuthApi } from '@/apis/auth'
 
 const router = useRouter()
 const userName = ref('')
+const userAvatar = ref('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150')
+const userBio = ref('Computer Science Student')
 
-onMounted(() => {
-  userName.value = getCookie("userName") || 'Alex Scholarly'
+onMounted(async () => {
+  try {
+    const res = await meUserAuthApi()
+    if (res.status === 200 && res.data) {
+      userName.value = res.data.fullName
+      userAvatar.value = res.data.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'
+      userBio.value = res.data.bio || 'Computer Science Student'
+      return
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error)
+  }
+
+  // Fallback if API fails
+  const email = getCookie("email") || ''
+  if (email) {
+    const parts = email.split('@')
+    const namePart = parts[0] || ''
+    const nameWords = namePart.split(/[._-]/)
+    userName.value = nameWords.map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')
+  } else {
+    userName.value = 'Alex Scholarly'
+  }
 })
 
 const handleLogout = () => {
   deleteCookie("accessToken")
   deleteCookie("refreshToken")
+  deleteCookie("email")
   deleteCookie("userName")
   deleteCookie("role")
   toast.success("Successfully logged out!")
@@ -462,7 +489,7 @@ const handleCreatePost = () => {
   const newPost: Post = {
     id: Date.now(),
     author: userName.value,
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
+    avatar: userAvatar.value,
     role: 'Verified Academic Student',
     time: 'Just now',
     content: newPostContent.value,
@@ -495,7 +522,7 @@ const handleAddComment = (post: Post) => {
 
   post.comments.push({
     author: userName.value,
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
+    avatar: userAvatar.value,
     content: post.newCommentText,
     time: 'Just now'
   })

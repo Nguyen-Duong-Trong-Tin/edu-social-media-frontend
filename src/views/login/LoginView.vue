@@ -180,7 +180,7 @@ const handleLogin = async () => {
 
     setCookie("accessToken", accessToken, 7);
     setCookie("refreshToken", refreshToken, 7);
-    setCookie("userName", user.fullName, 7);
+    setCookie("email", user.email, 7);
 
     router.push("/");
   } catch (error) {

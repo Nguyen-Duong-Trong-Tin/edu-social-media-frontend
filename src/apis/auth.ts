@@ -1,4 +1,5 @@
 import type { IAuthLogin, IAuthLoginResponse, IAuthLoginUser, IAuthLoginUserResponse, IAuthRefreshTokenResponse, IAuthRegister, IAuthRegisterResponse, IRefreshToken } from "@/interfaces/auth";
+import type { IUser } from "@/interfaces/users";
 
 import axiosApi from ".";
 import type { IResponse } from "@/interfaces";
@@ -11,6 +12,11 @@ export const loginAuthApi = async (payload: IAuthLogin) => {
 export const loginUserAuthApi = async (payload: IAuthLoginUser) => {
   const response = await axiosApi.post("v1/auth/user/login", payload);
   return response as unknown as IResponse<IAuthLoginUserResponse>;
+}
+
+export const meUserAuthApi = async () => {
+  const response = await axiosApi.post("v1/auth/user/me");
+  return response as unknown as IResponse<IUser>;
 }
 
 export const registerAuthApi = async (payload: IAuthRegister) => {

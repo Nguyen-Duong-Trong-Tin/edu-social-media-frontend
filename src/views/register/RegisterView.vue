@@ -167,10 +167,10 @@
             </div>
 
             <!-- Login Instead -->
-            <a class="block w-full text-center py-3 border border-[#c2c6d8] rounded-lg font-label-md text-[14px] font-semibold text-[#0050cd] hover:bg-[#f3f3f7] transition-colors"
-              href="#">
+            <router-link class="block w-full text-center py-3 border border-[#c2c6d8] rounded-lg font-label-md text-[14px] font-semibold text-[#0050cd] hover:bg-[#f3f3f7] transition-colors"
+              to="/login">
               Log in instead
-            </a>
+            </router-link>
           </form>
 
           <!-- Footer Links -->
