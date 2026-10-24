@@ -1,33 +1,33 @@
-import axios from "axios";
+import axios from 'axios'
 
-import configs from "@/configs";
+import configs from '@/configs'
 
 const axiosApi = axios.create({
   baseURL: configs.API_BASE_URL,
-});
+})
 
-import { getCookie } from "@/utils/cookie";
+import { getCookie } from '@/utils/cookie'
 
 axiosApi.interceptors.request.use(
   function (config) {
-    const token = getCookie("accessToken");
+    const token = getCookie('accessToken')
     if (token) {
-      config.headers["Authorization"] = "Bearer " + token;
+      config.headers['Authorization'] = 'Bearer ' + token
     }
-    return config;
+    return config
   },
   function (error) {
-    return Promise.reject(error);
-  }
-);
+    return Promise.reject(error)
+  },
+)
 
 axiosApi.interceptors.response.use(
   function (response) {
-    return response.data;
+    return response.data
   },
   function (error) {
-    return Promise.reject(error);
-  }
-);
+    return Promise.reject(error)
+  },
+)
 
-export default axiosApi;
+export default axiosApi

@@ -13,8 +13,8 @@
 
         <!-- Back to Home Link -->
         <div class="flex items-center gap-4">
-          <router-link 
-            to="/" 
+          <router-link
+            to="/"
             class="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-blue-600 hover:bg-blue-50/50 rounded-xl transition-all"
           >
             <span class="material-symbols-outlined text-[20px]">home</span>
@@ -37,18 +37,18 @@
           <!-- Cover Photo Section Wrapper (without overflow-hidden) -->
           <div class="relative rounded-b-xl shadow-inner bg-slate-200">
             <!-- Visual Container (crops image with overflow-hidden) -->
-            <div 
+            <div
               class="h-[250px] md:h-[350px] rounded-b-xl overflow-hidden"
               :class="!user.coverPhoto ? 'bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-600' : ''"
             >
-              <img 
-                v-if="user.coverPhoto" 
-                :src="user.coverPhoto" 
-                alt="Cover Photo" 
+              <img
+                v-if="user.coverPhoto"
+                :src="user.coverPhoto"
+                alt="Cover Photo"
                 class="w-full h-full object-cover"
               />
               <div class="absolute inset-0 bg-black/10 rounded-b-xl pointer-events-none"></div>
-              
+
               <!-- Loading Indicator for Cover Upload -->
               <div v-if="isUploadingCover" class="absolute inset-0 bg-black/40 flex items-center justify-center rounded-b-xl">
                 <span class="material-symbols-outlined text-white text-[48px] animate-spin">progress_activity</span>
@@ -57,7 +57,7 @@
 
             <!-- Cover Camera Button Wrapper -->
             <div ref="coverContainerRef" class="absolute bottom-4 right-4 z-20">
-              <button 
+              <button
                 @click="toggleCoverMenu"
                 class="bg-white hover:bg-slate-100 text-slate-800 px-3 py-1.5 rounded-lg text-sm font-semibold flex items-center gap-2 shadow-md transition-colors border border-slate-200"
               >
@@ -66,25 +66,25 @@
               </button>
 
               <!-- Cover Dropdown Menu -->
-              <div 
-                v-if="showCoverMenu" 
+              <div
+                v-if="showCoverMenu"
                 class="absolute right-0 mt-2 w-60 bg-white border border-slate-200 rounded-xl shadow-xl py-2 z-30 animate-fade-in text-left font-sans"
               >
-                <button 
+                <button
                   @click="showCoverMenu = false; toast.info('Choose cover photo feature coming soon!')"
                   class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors text-left"
                 >
                   <span class="material-symbols-outlined text-slate-500 text-[20px]">photo_library</span>
                   Choose cover photo
                 </button>
-                <button 
+                <button
                   @click="handleUploadCoverPhoto"
                   class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors text-left"
                 >
                   <span class="material-symbols-outlined text-slate-500 text-[20px]">upload</span>
                   Upload photo
                 </button>
-                <button 
+                <button
                   @click="showCoverMenu = false; toast.info('Reposition feature coming soon!')"
                   class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors text-left"
                 >
@@ -92,7 +92,7 @@
                   Reposition
                 </button>
                 <div class="border-t border-slate-100 my-1"></div>
-                <button 
+                <button
                   @click="handleRemoveCoverPhoto"
                   class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50/50 transition-colors text-left"
                 >
@@ -103,11 +103,11 @@
             </div>
 
             <!-- Hidden File Input for Cover -->
-            <input 
-              type="file" 
-              ref="coverFileInputRef" 
-              accept="image/*" 
-              class="hidden" 
+            <input
+              type="file"
+              ref="coverFileInputRef"
+              accept="image/*"
+              class="hidden"
               @change="handleCoverFileChange"
             />
           </div>
@@ -118,13 +118,13 @@
             <div class="flex flex-col md:flex-row items-center md:items-end gap-6 text-center md:text-left">
               <!-- Avatar -->
               <div ref="avatarContainerRef" class="relative flex-shrink-0 md:-mt-24 z-10">
-                <div 
+                <div
                   @click="toggleAvatarMenu"
                   class="relative w-40 h-40 rounded-full border-4 border-white overflow-hidden shadow-lg bg-white cursor-pointer hover:brightness-95 transition-all flex items-center justify-center animate-fade-in"
                 >
-                  <img 
-                    :src="user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'" 
-                    alt="Profile Avatar" 
+                  <img
+                    :src="user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'"
+                    alt="Profile Avatar"
                     class="w-full h-full object-cover"
                   />
                   <!-- Loading Overlay -->
@@ -132,29 +132,29 @@
                     <span class="material-symbols-outlined text-white text-[32px] animate-spin">progress_activity</span>
                   </div>
                 </div>
-                
+
                 <!-- Hidden File Input -->
-                <input 
-                  type="file" 
-                  ref="fileInputRef" 
-                  accept="image/*" 
-                  class="hidden" 
+                <input
+                  type="file"
+                  ref="fileInputRef"
+                  accept="image/*"
+                  class="hidden"
                   @change="handleFileChange"
                 />
-                
+
                 <!-- Avatar Actions Dropdown -->
-                <div 
-                  v-if="showAvatarMenu" 
+                <div
+                  v-if="showAvatarMenu"
                   class="absolute left-0 md:left-auto md:right-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl py-2 z-50 animate-fade-in"
                 >
-                  <button 
+                  <button
                     @click="handleSeeProfilePicture"
                     class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors text-left"
                   >
                     <span class="material-symbols-outlined text-slate-500 text-[20px]">account_box</span>
                     See profile picture
                   </button>
-                  <button 
+                  <button
                     @click="handleChooseProfilePicture"
                     class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors text-left"
                   >
@@ -201,9 +201,9 @@
 
           <!-- Tabs (Post, About, Friends, Photos, Videos, More) -->
           <div class="px-8 flex items-center gap-1 overflow-x-auto scrollbar-none mt-1">
-            <button 
-              v-for="tab in tabs" 
-              :key="tab" 
+            <button
+              v-for="tab in tabs"
+              :key="tab"
               @click="activeTab = tab"
               class="px-4 py-4 text-sm font-bold border-b-4 transition-all relative whitespace-nowrap"
               :class="activeTab === tab ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:bg-slate-50 hover:text-slate-700'"
@@ -216,21 +216,21 @@
 
       <!-- Main Profile Body Grid (Two-column layout like Facebook) -->
       <main class="max-w-[1095px] w-full mx-auto px-6 py-6 grid grid-cols-1 lg:grid-cols-5 gap-6">
-        
+
         <!-- Left Column: Intro & Info (2/5 span) -->
         <div class="lg:col-span-2 space-y-6">
-          
+
           <!-- Intro Card -->
           <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
             <h2 class="text-xl font-extrabold text-slate-900">Intro</h2>
-            
+
             <!-- Bio text / Edit state -->
             <div class="space-y-3 text-center">
               <div v-if="!isEditingBio" class="space-y-3">
                 <p class="text-sm text-slate-600 leading-relaxed font-normal">
                   {{ user.bio || "No bio added yet. Tell people a bit about your academic journey, major interests, and current focus!" }}
                 </p>
-                <button 
+                <button
                   @click="startEditingBio"
                   class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-sm font-semibold border border-slate-200 transition-colors"
                 >
@@ -238,24 +238,24 @@
                 </button>
               </div>
               <div v-else class="space-y-3">
-                <textarea 
-                  v-model="bioInputText" 
+                <textarea
+                  v-model="bioInputText"
                   maxlength="101"
-                  class="w-full border border-slate-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans text-slate-700" 
-                  rows="3" 
+                  class="w-full border border-slate-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans text-slate-700"
+                  rows="3"
                   placeholder="Describe who you are..."
                 ></textarea>
                 <div class="flex justify-between items-center text-xs text-slate-400 px-1">
                   <span>{{ 101 - bioInputText.length }} characters remaining</span>
                   <div class="flex gap-2">
-                    <button 
-                      @click="isEditingBio = false" 
+                    <button
+                      @click="isEditingBio = false"
                       class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold border border-slate-200 transition-colors"
                     >
                       Cancel
                     </button>
-                    <button 
-                      @click="handleSaveBio" 
+                    <button
+                      @click="handleSaveBio"
                       :disabled="isUpdatingBio"
                       class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow-sm transition-colors flex items-center gap-1 disabled:opacity-50"
                     >
@@ -322,7 +322,7 @@
               </div>
               <a href="#" class="text-sm text-blue-600 hover:bg-blue-50/50 px-3 py-1.5 rounded-lg font-semibold transition-colors">See all connections</a>
             </div>
-            
+
             <div class="grid grid-cols-3 gap-x-2 gap-y-4">
               <div v-for="friend in friends" :key="friend.name" class="space-y-1 cursor-pointer">
                 <img :src="friend.avatar" class="w-full h-20 object-cover rounded-lg hover:opacity-90 transition-opacity border border-slate-100" />
@@ -335,18 +335,18 @@
 
         <!-- Right Column: Create Post & Feed (3/5 span) -->
         <div class="lg:col-span-3 space-y-6">
-          
+
           <!-- Create Post Card -->
           <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-4">
             <div class="flex items-center gap-3">
-              <img 
-                :src="user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'" 
-                alt="Profile Avatar" 
+              <img
+                :src="user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'"
+                alt="Profile Avatar"
                 class="w-10 h-10 rounded-full object-cover"
               />
-              <input 
-                type="text" 
-                :placeholder="`What's on your mind, ${user.fullName.split(' ')[0]}?`" 
+              <input
+                type="text"
+                :placeholder="`What's on your mind, ${user.fullName.split(' ')[0]}?`"
                 class="w-full bg-[#f0f2f5] hover:bg-slate-200/80 px-4 py-2.5 rounded-full text-sm outline-none text-slate-800 placeholder-slate-500 font-medium cursor-pointer transition-colors"
               />
             </div>
@@ -365,7 +365,7 @@
 
           <!-- Feed Header / Filter Card -->
           <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex justify-between items-center">
-            <h2 class="text-xl font-extrabold text-slate-900">Posts</h2>
+            <h2 class="text-xl font-extrabold text-slate-900">Articles</h2>
             <div class="flex items-center gap-2">
               <button class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1.5 rounded-lg text-sm font-semibold border border-slate-200 transition-colors">
                 <span class="material-symbols-outlined text-[18px]">pageview</span>
@@ -373,12 +373,12 @@
               </button>
               <button class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1.5 rounded-lg text-sm font-semibold border border-slate-200 transition-colors">
                 <span class="material-symbols-outlined text-[18px]">settings</span>
-                Manage posts
+                Manage articles
               </button>
             </div>
           </div>
 
-          <!-- User's Posts Feed list -->
+          <!-- User's Articles Feed list -->
           <div class="space-y-6">
             <div v-for="post in userPosts" :key="post.id" class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
               <!-- Post Header -->
@@ -426,7 +426,7 @@
 
               <!-- Action Buttons Row -->
               <div class="border-t border-b border-slate-100 py-1 flex items-center text-slate-500 text-sm font-bold px-2">
-                <button 
+                <button
                   @click="toggleLike(post)"
                   class="flex-grow flex items-center justify-center gap-2 hover:bg-slate-50 py-2 rounded-lg transition-colors"
                   :class="post.liked ? 'text-blue-600' : ''"
@@ -462,20 +462,20 @@
       </main>
 
       <!-- Lightbox Modal for See Profile Picture -->
-      <div 
-        v-if="showAvatarLightbox" 
+      <div
+        v-if="showAvatarLightbox"
         @click="showAvatarLightbox = false"
         class="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4 animate-fade-in cursor-zoom-out"
       >
-        <button 
-          @click.stop="showAvatarLightbox = false" 
+        <button
+          @click.stop="showAvatarLightbox = false"
           class="absolute top-6 right-6 text-white bg-white/10 hover:bg-white/20 w-12 h-12 rounded-full flex items-center justify-center transition-all cursor-pointer"
         >
           <span class="material-symbols-outlined text-[28px]">close</span>
         </button>
-        <img 
-          :src="getHighResAvatar(user.avatar)" 
-          alt="Full Profile Picture" 
+        <img
+          :src="getHighResAvatar(user.avatar)"
+          alt="Full Profile Picture"
           class="w-full max-w-[95vw] md:max-w-[650px] aspect-square object-cover rounded-lg shadow-2xl select-none animate-scale-in bg-zinc-900 border border-zinc-800"
           @click.stop
         />
