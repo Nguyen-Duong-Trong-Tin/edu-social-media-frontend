@@ -371,7 +371,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { deleteCookie, getCookie } from '@/utils/cookie'
 import { toast } from 'vue-sonner'
-import { meUserAuthApi } from '@/apis/auth'
+import { logoutAuthApi, meUserAuthApi } from '@/apis/auth'
 
 const router = useRouter()
 const userName = ref('')
@@ -403,7 +403,12 @@ onMounted(async () => {
   }
 })
 
-const handleLogout = () => {
+const handleLogout = async () => {
+  try {
+    await logoutAuthApi()
+  } catch {
+    // Token may already be expired or revoked; still clear the local session
+  }
   deleteCookie("accessToken")
   deleteCookie("refreshToken")
   deleteCookie("email")

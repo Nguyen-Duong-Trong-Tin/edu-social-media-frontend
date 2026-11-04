@@ -38,3 +38,8 @@ export const verifyTokenAuthApi = async () => {
   const response = await axiosApi.post("/v1/auth/verify-token");
   return response;
 }
+
+export const logoutAuthApi = async () => {
+  const response = await axiosApi.post("v1/auth/logout");
+  return response;
+}
