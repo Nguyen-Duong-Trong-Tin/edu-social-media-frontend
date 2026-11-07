@@ -25,12 +25,12 @@ export interface IGroupTaskSubmissionsFind extends ISpecification {
   isActive?: boolean;
 }
 
+// The owner is always the logged-in user; the API takes no userId
 export interface IGroupTaskSubmissionCreate {
   name: string;
   description?: string;
   comment?: string;
   groupTaskId: number;
-  userId: number;
 }
 
 export interface IGroupTaskSubmissionUpdate {
@@ -38,8 +38,6 @@ export interface IGroupTaskSubmissionUpdate {
   description?: string;
   comment?: string;
   groupTaskId?: number;
-  userId?: number;
-  isActive?: boolean;
 }
 
 export interface IGroupTaskSubmissionsState {

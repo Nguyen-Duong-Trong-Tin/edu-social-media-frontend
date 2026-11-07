@@ -22,17 +22,15 @@ export interface IUserArticlesFind extends ISpecification {
   isActive?: boolean;
 }
 
+// The owner is always the logged-in user; the API takes no userId
 export interface IUserArticleCreate {
   content: string;
   status: UserArticleStatus;
-  userId: number;
 }
 
 export interface IUserArticleUpdate {
   content?: string;
   status?: UserArticleStatus;
-  userId?: number;
-  isActive?: boolean;
 }
 
 export interface IUserArticlesState {
